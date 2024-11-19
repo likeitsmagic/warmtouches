@@ -1,0 +1,36 @@
+@keyframes electricEffect {
+
+  from {
+
+    opacity: 1;
+
+    transform: scale(1);
+
+  }
+
+  to {
+
+    opacity: 0;
+
+    transform: scale(1.5);
+
+  }
+
+}
+
+.electric {
+
+  position: absolute;
+
+
+  width: 96px;
+
+  height: 96px;
+
+  background-image: url('heart96.png');
+
+
+  animation: electricEffect 0.5s linear forwards;
+
+  pointer-events: none;
+  }
