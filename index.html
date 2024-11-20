@@ -23,6 +23,12 @@
                 document.getElementById("userGreeting").innerText = `Welcome! Your ID is: ${startAppParam}`;
             }
         });
+
+        // Function to generate room link with user ID
+        function generateRoomLink() {
+            const userId = startAppParam; // Assuming startAppParam contains the user ID
+            return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userId)}`; // Constructing the link
+        }
     </script>
 
     <section id="home">
@@ -36,7 +42,8 @@
                         <button class="btn btn-primary d-inline-flex flex-row align-items-center">Shall we?</button>
                     </a>
                     
-                    <a href="#" onClick='window.open("https://telegram.me/share/url?url=https://t.me/WarmTouchesBot?startapp=" + generateRoomLink(),"sharer","status=0,toolbar=0,width=650,height=500");' class="btn btn-default smoothScroll wow fadeInUp">
+                    <!-- Updated Add Partner Button -->
+                    <a href="#" onClick='window.open("https://telegram.me/share/url?url=" + encodeURIComponent(generateRoomLink()), "sharer", "status=0,toolbar=0,width=650,height=500");' class="btn btn-default smoothScroll wow fadeInUp">
                         <button class="btn btn-primary d-inline-flex flex-row align-items-center">Add a partner</button>
                     </a>
                 </div>
