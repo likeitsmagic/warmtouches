@@ -2,20 +2,28 @@
 <html lang="en">
 <head>
     <title>Feel it</title>
-    
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="css/default.css">
 </head>
 <body>
-    <!--<script>
-        const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-        const username = window.Telegram.WebApp.initDataUnsafe.user.username || "No Username"; // Fallback if no username
+    <script>
+        // Function to get URL parameters
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
 
-        //console.log(`User ID: ${userId}, Username: ${username}`);
+        // Get the 'startapp' parameter
+        const startAppParam = getUrlParameter('startapp');
+        console.log(`Start App Parameter: ${startAppParam}`);
+
+        // Use this parameter as needed in your app
         document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("userGreeting").innerText = `Welcome, ${userId}!`;
+            if (startAppParam) {
+                document.getElementById("userGreeting").innerText = `Welcome! Your ID is: ${startAppParam}`;
+            }
         });
-    </script>-->
+    </script>
 
     <section id="home">
         <div class="container">
@@ -28,7 +36,7 @@
                         <button class="btn btn-primary d-inline-flex flex-row align-items-center">Shall we?</button>
                     </a>
                     
-                    <a href="#" onClick='window.open("https://telegram.me/share/url?url=link_to_room","sharer","status=0,toolbar=0,width=650,height=500");' class="btn btn-default smoothScroll wow fadeInUp">
+                    <a href="#" onClick='window.open("https://t.me/WarmTouchesBot?startapp=" + generateRoomLink(),"sharer","status=0,toolbar=0,width=650,height=500");' class="btn btn-default smoothScroll wow fadeInUp">
                         <button class="btn btn-primary d-inline-flex flex-row align-items-center">Add a partner</button>
                     </a>
                 </div>
