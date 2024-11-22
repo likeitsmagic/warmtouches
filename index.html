@@ -19,14 +19,16 @@
 
         // Use this parameter as needed in your app
         document.addEventListener("DOMContentLoaded", function() {
-            if (startAppParam) {
+            if (startAppParam && startAppParam !== 'null') {
                 document.getElementById("userGreeting").innerText = `Welcome! Your ID is: ${startAppParam}`;
+            } else {
+                document.getElementById("userGreeting").innerText = "Welcome! No valid ID provided.";
             }
         });
 
         // Function to generate room link with user ID
         function generateRoomLink() {
-            const userId = startAppParam; // Assuming startAppParam contains the user ID
+            const userId = startAppParam && startAppParam !== 'null' ? startAppParam : "defaultUser"; // Fallback if null
             return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userId)}`; // Constructing the link
         }
     </script>
