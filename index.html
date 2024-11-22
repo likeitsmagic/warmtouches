@@ -29,22 +29,18 @@
     </section>
 
     <script>
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDD0CegDU3N5BeKTxNtiIxzHU_KqwBb6V8",
             authDomain: "touches-110724.firebaseapp.com",
-            databaseURL: "https://touches-110724-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "touches-110724",
             storageBucket: "touches-110724.firebasestorage.app",
             messagingSenderId: "190649940963",
             appId: "1:190649940963:web:d8e0f4f94820e18593bed6",
             measurementId: "G-8XTKL7L1WT"
         };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
+    
+        const FIRESTORE_API_URL = "https://firestore.googleapis.com/v1/projects/touches-110724/databases/(default)/documents/users";
+    
         // Generate room link for sharing
         function generateRoomLink() {
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
@@ -55,20 +51,37 @@
                 return "#";
             }
         }
-
-        // Store user data in Firebase
+    
+        // Store user data using Firestore REST API
         async function storeUserData() {
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
                 const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-                const userRef = db.collection('users').doc(userId.toString());
-
+                const userDocumentUrl = `${FIRESTORE_API_URL}/${userId}`;
+    
                 try {
-                    const doc = await userRef.get();
-                    if (!doc.exists) {
-                        await userRef.set({ id: userId });
+                    // Check if the user document exists
+                    const response = await fetch(userDocumentUrl);
+                    if (response.status === 404) {
+                        // User document does not exist, create it
+                        await fetch(FIRESTORE_API_URL, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                name: `projects/touches-110724/databases/(default)/documents/users/${userId}`,
+                                fields: {
+                                    id: { stringValue: userId },
+                                    createdAt: { timestampValue: new Date().toISOString() }
+                                }
+                            })
+                        });
                         document.getElementById("userGreeting").innerText = "User data stored successfully.";
-                    } else {
+                    } else if (response.ok) {
+                        // User already exists
                         document.getElementById("userGreeting").innerText = "User already exists, no need to store again.";
+                    } else {
+                        throw new Error("Unexpected response while checking user existence.");
                     }
                 } catch (error) {
                     console.error("Error storing user data:", error);
@@ -79,7 +92,7 @@
                 document.getElementById("userGreeting").innerText = "Unable to retrieve user data.";
             }
         }
-
+    
         // Call storeUserData after DOM is loaded
         document.addEventListener("DOMContentLoaded", function () {
             storeUserData();
