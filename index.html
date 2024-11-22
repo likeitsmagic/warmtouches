@@ -56,31 +56,25 @@
         async function storeUserData() {
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
                 const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-                const userDocumentUrl = `${FIRESTORE_API_URL}/${userId}`;
+                //const userDocumentUrl = `${FIRESTORE_API_URL}/${userId}`;
     
                 try {
-                    // Check if the user document exists
-                    const response = await fetch(userDocumentUrl);
-                    if (response.status === 404) {
+                    const userDocRef = db.collection("users").doc(userId);
+                    const doc = await userDocRef.get();
+                    
+                    if (!doc.exists) {
                         // User document does not exist, create it
-                        await fetch(FIRESTORE_API_URL, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                name: `projects/touches-110724/databases/(default)/documents/users/${userId}`,
-                                fields: {
-                                    id: { stringValue: userId },
-                                }
-                            })
+                        await userDocRef.set({
+                            id: userId,
+                            username: window.Telegram.WebApp.initDataUnsafe.user.username || "No Username",
+                            photoURL: window.Telegram.WebApp.initDataUnsafe.user.photo_url || "No Image", // Use a default image if none provided
                         });
                         document.getElementById("userGreeting").innerText = "User data stored successfully.";
-                    } else if (response.ok) {
-                        // User already exists
-                        document.getElementById("userGreeting").innerText = "User already exists, no need to store again.";
                     } else {
-                        throw new Error("Unexpected response while checking user existence.");
+                        // User already exists, retrieve and display their data
+                        const userData = doc.data();
+                        document.getElementById("userGreeting").innerText = `Welcome, ${userData.username}!`;
+                        document.getElementById("userImage").src = userData.photoURL; // Assuming you store photoURL in Firestore
                     }
                 } catch (error) {
                     console.error("Error storing user data:", error);
