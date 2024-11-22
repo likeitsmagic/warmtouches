@@ -42,6 +42,13 @@
 
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        const userId = getUrlParameter('startapp');
     
         const FIRESTORE_API_URL = "https://firestore.googleapis.com/v1/projects/touches-110724/databases/(default)/documents/users";
     
