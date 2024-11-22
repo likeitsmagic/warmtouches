@@ -29,6 +29,9 @@
         // Function to generate room link with user ID
         function generateRoomLink() {
             const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("userGreeting").innerText = `Welcome, ${userId}!`;
+            });
             return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userId)}`; // Constructing the link
         }
     </script>
