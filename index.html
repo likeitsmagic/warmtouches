@@ -60,13 +60,16 @@
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
                 const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
                 //const userDocumentUrl = `${FIRESTORE_API_URL}/${userId}`;
+
+                document.getElementById("userGreeting").innerText = `just foreplay1`;
     
                 try {
                     const userDocRef = db.collection("users").doc(userId);
                     const doc = await userDocRef.get();
-                    
+
+                    document.getElementById("userGreeting").innerText = `just foreplay2`;
                     if (!doc.exists) {
-                        // User document does not exist, create it
+                        document.getElementById("userGreeting").innerText = `Сreating new doc..`;
                         await userDocRef.set({
                             id: userId,
                             username: window.Telegram.WebApp.initDataUnsafe.user.username || "No Username",
@@ -74,6 +77,7 @@
                         });
                         document.getElementById("userGreeting").innerText = "User data stored successfully.";
                     } else {
+                        document.getElementById("userGreeting").innerText = `already exists`;
                         // User already exists, retrieve and display their data
                         const userData = doc.data();
                         document.getElementById("userGreeting").innerText = `Welcome, ${userData.username}!`;
