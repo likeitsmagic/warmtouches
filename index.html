@@ -49,6 +49,7 @@
         }
 
         const userId = getUrlParameter('startapp');
+        document.getElementById("userGreeting").innerText = ${userId};
     
         const FIRESTORE_API_URL = "https://firestore.googleapis.com/v1/projects/touches-110724/databases/(default)/documents/users";
     
@@ -72,7 +73,7 @@
                 document.getElementById("userGreeting").innerText = `just foreplay1`;
     
                 try {
-                    const userDocRef = db.collection("users").doc(userId);
+                    const userDocRef = db.collection("users").doc(${userId});
                     const doc = await userDocRef.get();
 
                     document.getElementById("userGreeting").innerText = `just foreplay2`;
@@ -93,7 +94,7 @@
                     }*/
                 } catch (error) {
                     console.error("Error storing user data:", error);
-                    document.getElementById("userGreeting").innerText = "Something went wrong: " + error;
+                    //document.getElementById("userGreeting").innerText = "Something went wrong: " + error;
                 }
             } else {
                 console.error("Telegram WebApp is not initialized or running outside Telegram.");
