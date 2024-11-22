@@ -3,58 +3,11 @@
 <head>
     <title>Feel it</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"></script>
     <link rel="stylesheet" href="css/default.css">
 </head>
 <body>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDD0CegDU3N5BeKTxNtiIxzHU_KqwBb6V8",
-            authDomain: "touches-110724.firebaseapp.com",
-            databaseURL: "https://touches-110724-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "touches-110724",
-            storageBucket: "touches-110724.firebasestorage.app",
-            messagingSenderId: "190649940963",
-            appId: "1:190649940963:web:d8e0f4f94820e18593bed6",
-            measurementId: "G-8XTKL7L1WT"
-        };
-        
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        
-        function generateRoomLink() {
-            const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-            return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userId)}`;
-        }
-    
-        async function storeUserData() {
-            const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-            const userRef = db.collection('users').doc(userId.toString());
-    
-            try {
-                const doc = await userRef.get();
-                if (!doc.exists) {
-                    await userRef.set({
-                        id: userId,
-                    });
-                    
-                    document.addEventListener("DOMContentLoaded", function() {
-                        document.getElementById("userGreeting").innerText = `User data stored successfully.`;
-                    });
-                } else {
-                    document.addEventListener("DOMContentLoaded", function() {
-                        document.getElementById("userGreeting").innerText = `User already exists, no need to store again.`;
-                    });
-                }
-            } catch (error) {
-                    document.addEventListener("DOMContentLoaded", function() {
-                    document.getElementById("userGreeting").innerText = `smth went wrong`;
-                });
-            }
-        }
-
-        storeUserData();
-    </script>
-
     <section id="home">
         <div class="container">
             <div class="row vh-md-100">
@@ -75,5 +28,62 @@
         </div>
     </section>
 
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDD0CegDU3N5BeKTxNtiIxzHU_KqwBb6V8",
+            authDomain: "touches-110724.firebaseapp.com",
+            databaseURL: "https://touches-110724-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "touches-110724",
+            storageBucket: "touches-110724.firebasestorage.app",
+            messagingSenderId: "190649940963",
+            appId: "1:190649940963:web:d8e0f4f94820e18593bed6",
+            measurementId: "G-8XTKL7L1WT"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Generate room link for sharing
+        function generateRoomLink() {
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
+                const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+                return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userId)}`;
+            } else {
+                console.error("Telegram WebApp is not initialized or running outside Telegram.");
+                return "#";
+            }
+        }
+
+        // Store user data in Firebase
+        async function storeUserData() {
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
+                const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+                const userRef = db.collection('users').doc(userId.toString());
+
+                try {
+                    const doc = await userRef.get();
+                    if (!doc.exists) {
+                        await userRef.set({ id: userId });
+                        document.getElementById("userGreeting").innerText = "User data stored successfully.";
+                    } else {
+                        document.getElementById("userGreeting").innerText = "User already exists, no need to store again.";
+                    }
+                } catch (error) {
+                    console.error("Error storing user data:", error);
+                    document.getElementById("userGreeting").innerText = "Something went wrong.";
+                }
+            } else {
+                console.error("Telegram WebApp is not initialized or running outside Telegram.");
+                document.getElementById("userGreeting").innerText = "Unable to retrieve user data.";
+            }
+        }
+
+        // Call storeUserData after DOM is loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            storeUserData();
+        });
+    </script>
 </body>
 </html>
