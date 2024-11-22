@@ -38,6 +38,9 @@
             appId: "1:190649940963:web:d8e0f4f94820e18593bed6",
             measurementId: "G-8XTKL7L1WT"
         };
+
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
     
         const FIRESTORE_API_URL = "https://firestore.googleapis.com/v1/projects/touches-110724/databases/(default)/documents/users";
     
