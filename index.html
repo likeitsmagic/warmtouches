@@ -7,10 +7,52 @@
 </head>
 <body>
     <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDD0CegDU3N5BeKTxNtiIxzHU_KqwBb6V8",
+            authDomain: "touches-110724.firebaseapp.com",
+            databaseURL: "https://touches-110724-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "touches-110724",
+            storageBucket: "touches-110724.firebasestorage.app",
+            messagingSenderId: "190649940963",
+            appId: "1:190649940963:web:d8e0f4f94820e18593bed6",
+            measurementId: "G-8XTKL7L1WT"
+        };
+        
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
         function generateRoomLink() {
             const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-            return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userId)}`; // Constructing the link
+            return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userId)}`;
         }
+    
+        async function storeUserData() {
+            const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+            const userRef = db.collection('users').doc(userId.toString());
+    
+            try {
+                const doc = await userRef.get();
+                if (!doc.exists) {
+                    await userRef.set({
+                        id: userId,
+                    });
+                    
+                    document.addEventListener("DOMContentLoaded", function() {
+                        document.getElementById("userGreeting").innerText = `User data stored successfully.`;
+                    });
+                } else {
+                    document.addEventListener("DOMContentLoaded", function() {
+                        document.getElementById("userGreeting").innerText = `User already exists, no need to store again.`;
+                    });
+                }
+            } catch (error) {
+                    document.addEventListener("DOMContentLoaded", function() {
+                    document.getElementById("userGreeting").innerText = `smth went wrong`;
+                });
+            }
+        }
+
+        storeUserData();
     </script>
 
     <section id="home">
