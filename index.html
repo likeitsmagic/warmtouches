@@ -30,17 +30,17 @@
 
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyDD0CegDU3N5BeKTxNtiIxzHU_KqwBb6V8",
+            apiKey: "AIzaSyAgzu1YVwpzit6yGF3hvZbiEfWyrIjMRvU",
             authDomain: "touches-110724.firebaseapp.com",
             projectId: "touches-110724",
             storageBucket: "touches-110724.firebasestorage.app",
             messagingSenderId: "190649940963",
             appId: "1:190649940963:web:d8e0f4f94820e18593bed6",
-            measurementId: "G-8XTKL7L1WT"
+            //measurementId: "G-8XTKL7L1WT"
         };
 
         const app = firebase.initializeApp(firebaseConfig);
-        //const db = firebase.firestore();
+        const db = firebase.firestore();
     
         const FIRESTORE_API_URL = "https://firestore.googleapis.com/v1/projectss/touches-110724/databases/(default)/documents/users";
     
