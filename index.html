@@ -7,31 +7,8 @@
 </head>
 <body>
     <script>
-        // Function to get URL parameters
-        function getUrlParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-
-        // Get the 'startapp' parameter
-        const startAppParam = getUrlParameter('startapp');
-        console.log(`Start App Parameter: ${startAppParam}`);
-
-        // Use this parameter as needed in your app
-        document.addEventListener("DOMContentLoaded", function() {
-            if (startAppParam && startAppParam !== 'null') {
-                document.getElementById("userGreeting").innerText = `Welcome! Your ID is: ${startAppParam}`;
-            } else {
-                document.getElementById("userGreeting").innerText = "Welcome! No valid ID provided.";
-            }
-        });
-
-        // Function to generate room link with user ID
         function generateRoomLink() {
             const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-            document.addEventListener("DOMContentLoaded", function() {
-                document.getElementById("userGreeting").innerText = `Welcome, ${userId}!`;
-            });
             return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userId)}`; // Constructing the link
         }
     </script>
