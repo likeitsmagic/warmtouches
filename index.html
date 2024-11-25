@@ -48,7 +48,8 @@
             return urlParams.get(name);
         }
 
-        const userId = getUrlParameter('startapp');
+        const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+        //const userId = getUrlParameter('startapp');
         document.getElementById("userGreeting").innerText = userId;
     
         const FIRESTORE_API_URL = "https://firestore.googleapis.com/v1/projects/touches-110724/databases/(default)/documents/users";
@@ -67,7 +68,6 @@
         // Store user data using Firestore REST API
         async function storeUserData() {
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
-                const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
                 //const userDocumentUrl = `${FIRESTORE_API_URL}/${userId}`;
 
                 document.getElementById("userGreeting").innerText = `just foreplay1`;
