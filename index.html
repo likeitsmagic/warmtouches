@@ -87,6 +87,15 @@
     
         document.addEventListener("DOMContentLoaded", function() {
             storeUserData();
+
+            const addPartnerButton = document.querySelector("#addPartner");
+            addPartnerButton.addEventListener("click", function(event) {
+                event.preventDefault();
+                const link = generateRoomLink();
+                if (link !== "#") {
+                    window.open(link, "sharer", "status=0,toolbar=0,width=650,height=500");
+                }
+            });
         });
     </script>
 </body>
