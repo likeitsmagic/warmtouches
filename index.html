@@ -47,7 +47,7 @@
         function generateRoomLink() {
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
                 const userIdForRoom = window.Telegram.WebApp.initDataUnsafe.user.id;
-                return `https://t.me/WarmTouchesBot?start=room&startapp=${encodeURIComponent(userIdForRoom)}`;
+                return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userIdForRoom)}`;
             } else {
                 console.error("Telegram WebApp is not initialized or running outside Telegram.");
                 return "outside";
@@ -95,8 +95,17 @@
                 "status=0,toolbar=0,width=650,height=500"
             );
         };
+
+        function checkStartAppParam() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const startapp = urlParams.get('startapp');
+            if (startapp) {
+                window.location.href = `room.html?startapp=${encodeURIComponent(startapp)}`;
+            }
+        }
     
         document.addEventListener("DOMContentLoaded", function() {
+            checkStartAppParam();
             //storeUserData();
         });
     </script>
