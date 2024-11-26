@@ -27,101 +27,37 @@
         </div>
     </section>
 
-    <script>
-        import { initializeApp } from 'firebase/app';
-        import { getFirestore, doc, setDoc } from 'firebase/firestore';
-
-        try {
-            const firebaseConfig = initializeApp({
-                apiKey: "AIzaSyDD0CegDU3N5BeKTxNtiIxzHU_KqwBb6V8",
-                authDomain: "touches-110724.firebaseapp.com",
-                //databaseURL: "https://touches-110724-default-rtdb.europe-west1.firebasedatabase.app",
-                projectId: "touches-110724",
-                storageBucket: "touches-110724.appspot.com",
-                messagingSenderId: "190649940963",
-                appId: "1:190649940963:web:d8e0f4f94820e18593bed6",
-                //measurementId: "G-8XTKL7L1WT"
-            });
-
-            const db = getFirestore();
-            const ordersCollection = collection(firestore, 'orders');
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
     
-            async function addNewDoc() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyDD0CegDU3N5BeKTxNtiIxzHU_KqwBb6V8",
+            authDomain: "touches-110724.firebaseapp.com",
+            projectId: "touches-110724",
+            storageBucket: "touches-110724.appspot.com",
+            messagingSenderId: "190649940963",
+            appId: "1:190649940963:web:d8e0f4f94820e18593bed6",
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+    
+        async function addNewDoc() {
+            try {
+                const ordersCollection = collection(db, "orders");
                 const newDoc = await addDoc(ordersCollection, {
-                    desc: 'yay1',
-                    smth: 'fullofthat',
+                    desc: "yay1",
+                    smth: "fullofthat",
                     vegan: false,
                 });
-            }
-                
-            addNewDoc();
-        } catch (error) {
-            document.getElementById("userGreeting").innerText = error;
-        }
-
-        /*function getUrlParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }*/
-
-        //const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-        //const userId = getUrlParameter('startapp');
-        //document.getElementById("userGreeting").innerText = userId;
-    
-        const FIRESTORE_API_URL = "https://firestore.googleapis.com/v1/projects/touches-110724/databases/(default)/documents/users";
-    
-        // Generate room link for sharing
-        function generateRoomLink() {
-            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
-                const userIdForRoom = window.Telegram.WebApp.initDataUnsafe.user.id;
-                return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userIdForRoom)}`;
-            } else {
-                console.error("Telegram WebApp is not initialized or running outside Telegram.");
-                return "#";
+                document.getElementById("userGreeting").innerText = newDoc.id;
+            } catch (error) {
+                document.getElementById("userGreeting").innerText = error.message;
             }
         }
     
-        // Store user data using Firestore REST API
-        async function storeUserData() {
-            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
-                document.getElementById("userGreeting").innerText = "storeUserData function called";
-                //const userDocumentUrl = `${FIRESTORE_API_URL}/${userId}`;
-    
-                try {
-                    const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-                    //document.getElementById("userGreeting").innerText = userId;
-                    const userDocRef = db.collection("users").doc(userId);
-                    //const doc = await userDocRef.get();
-
-                    document.getElementById("userGreeting").innerText = `just foreplay2`;
-                    /*if (!doc.exists) {
-                        document.getElementById("userGreeting").innerText = `Сreating new doc..`;
-                        await userDocRef.set({
-                            id: userId,
-                            username: window.Telegram.WebApp.initDataUnsafe.user.username || "No Username",
-                            photoURL: window.Telegram.WebApp.initDataUnsafe.user.photo_url || "No Image", // Use a default image if none provided
-                        });
-                        document.getElementById("userGreeting").innerText = "User data stored successfully.";
-                    } else {
-                        document.getElementById("userGreeting").innerText = `already exists`;
-                        // User already exists, retrieve and display their data
-                        const userData = doc.data();
-                        document.getElementById("userGreeting").innerText = `Welcome, ${userData.username}!`;
-                        document.getElementById("userImage").src = userData.photoURL; // Assuming you store photoURL in Firestore
-                    }*/
-                } catch (error) {
-                    console.error("Error storing user data:", error);
-                    document.getElementById("userGreeting").innerText = "Something went wrong: " + error;
-                }
-            } else {
-                console.error("Telegram WebApp is not initialized or running outside Telegram.");
-                document.getElementById("userGreeting").innerText = "Unable to retrieve user data.";
-            }
-        }
-    
-        document.addEventListener("DOMContentLoaded", function () {
-            //storeUserData();
-        });
+        addNewDoc();
     </script>
 </body>
 </html>
