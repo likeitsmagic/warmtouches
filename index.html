@@ -4,8 +4,6 @@
     <title>Feel it</title>
     
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore-compat.js"></script>
     <link rel="stylesheet" href="css/default.css">
 </head>
 <body>
@@ -30,23 +28,37 @@
     </section>
 
     <script>
+        import { initializeApp } from 'firebase/app';
+        import { getFirestore, doc, setDoc } from 'firebase/firestore';
+        
         const firebaseConfig = {
             apiKey: "AIzaSyDD0CegDU3N5BeKTxNtiIxzHU_KqwBb6V8",
             authDomain: "touches-110724.firebaseapp.com",
+            //databaseURL: "https://touches-110724-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "touches-110724",
-            storageBucket: "touches-110724.firebasestorage.app",
+            storageBucket: "touches-110724.appspot.com",
             messagingSenderId: "190649940963",
             appId: "1:190649940963:web:d8e0f4f94820e18593bed6",
             //measurementId: "G-8XTKL7L1WT"
         };
+        
+        const db = getFirestore();
+        const sod = doc(firestore, 'hahaha');
 
-        //const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        function writeItNow() {
+            const docData = {
+                desc: 'yay1',
+                price: 3.99,
+                smth: 'fullofthat',
+                vegan: false,
+            };
+            setDoc(sod, docData);
+        }
 
-        function getUrlParameter(name) {
+        /*function getUrlParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
-        }
+        }*/
 
         //const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
         //const userId = getUrlParameter('startapp');
@@ -104,7 +116,7 @@
         }
     
         document.addEventListener("DOMContentLoaded", function () {
-            storeUserData();
+            //storeUserData();
         });
     </script>
 </body>
