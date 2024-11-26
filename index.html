@@ -96,8 +96,23 @@
                 "status=0,toolbar=0,width=650,height=500"
             );
         };
+
+        function checkStartAppParam() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const startapp = urlParams.get('startapp');
+            document.getElementById("userGreeting").innerText = urlParams;
+        
+            if (startapp) {
+                document.getElementById("userGreeting").innerText = `StartApp param: ${startapp}`;
+                // Redirect to room.html with the startapp value
+                window.location.href = `room.html?startapp=${encodeURIComponent(startapp)}`;
+            } else {
+                document.getElementById("userGreeting").innerText = "No startapp param found";
+            }
+        }
     
         document.addEventListener("DOMContentLoaded", function() {
+            checkStartAppParam();
             //storeUserData();
         });
     </script>
