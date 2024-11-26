@@ -86,6 +86,7 @@
 
         function openTelegramSharer() {
             const roomLink = generateRoomLink();
+            document.getElementById("userGreeting").innerText = roomLink;
             window.open(`https://telegram.me/share/url?url=${encodeURIComponent(roomLink)}`, "sharer", "status=0,toolbar=0,width=650,height=500");
         }
     
