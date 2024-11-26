@@ -99,6 +99,7 @@
         function checkStartAppParam() {
             const urlParams = new URLSearchParams(window.location.search);
             const startapp = urlParams.get('startapp');
+            document.getElementById("userGreeting").innerText = startapp;
             if (startapp) {
                 window.location.href = `room.html?startapp=${encodeURIComponent(startapp)}`;
             }
