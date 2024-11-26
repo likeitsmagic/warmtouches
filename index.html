@@ -55,7 +55,6 @@
 
         async function storeUserData() {
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
-    
                 try {
                     const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
                     const usersCollection = collection(db, "users");
@@ -69,20 +68,20 @@
                             username: window.Telegram.WebApp.initDataUnsafe.user.username || "No Username",
                             photoURL: window.Telegram.WebApp.initDataUnsafe.user.photo_url || "No Image", // Use a default image if none provided
                         });
-                        document.getElementById("userGreeting").innerText = newDoc.id;
+                        //document.getElementById("userGreeting").innerText = newDoc.id;
                     } else {
                         document.getElementById("userGreeting").innerText = `already exists`;
-                        snap.forEach((doc) => {
+                        /*snap.forEach((doc) => {
                             document.getElementById("userGreeting").innerText = JSON.stringify(doc.data());
-                        });
+                        });*/
                     }
                 } catch (error) {
                     console.error("Error storing user data:", error);
-                    document.getElementById("userGreeting").innerText = "Something went wrong: " + error;
+                    //document.getElementById("userGreeting").innerText = "Something went wrong: " + error;
                 }
             } else {
                 console.error("Telegram WebApp is not initialized or running outside Telegram.");
-                document.getElementById("userGreeting").innerText = "Unable to retrieve user data.";
+                //document.getElementById("userGreeting").innerText = "Unable to retrieve user data.";
             }
         }
     
