@@ -87,9 +87,13 @@
         }
 
         function openTelegramSharer() {
-            //const roomLink = generateRoomLink();
+            const roomLink = generateRoomLink();
             //${encodeURIComponent(roomLink)}
-            window.open(`https://telegram.me/share/url?url=null`, "sharer", "status=0,toolbar=0,width=650,height=500");
+            window.open(
+                `https://telegram.me/share/url?url=${encodeURIComponent(roomLink)}`, 
+                "sharer", 
+                "status=0,toolbar=0,width=650,height=500"
+            );
         }
     
         document.addEventListener("DOMContentLoaded", function() {
