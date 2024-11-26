@@ -30,33 +30,34 @@
     <script>
         import { initializeApp } from 'firebase/app';
         import { getFirestore, doc, setDoc } from 'firebase/firestore';
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyDD0CegDU3N5BeKTxNtiIxzHU_KqwBb6V8",
-            authDomain: "touches-110724.firebaseapp.com",
-            //databaseURL: "https://touches-110724-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "touches-110724",
-            storageBucket: "touches-110724.appspot.com",
-            messagingSenderId: "190649940963",
-            appId: "1:190649940963:web:d8e0f4f94820e18593bed6",
-            //measurementId: "G-8XTKL7L1WT"
-        };
-        
-        const db = getFirestore();
-        const ordersCollection = collection(firestore, 'orders');
 
-        async function addNewDoc() {
-            try {
+        try {
+            const firebaseConfig = initializeApp({
+                apiKey: "AIzaSyDD0CegDU3N5BeKTxNtiIxzHU_KqwBb6V8",
+                authDomain: "touches-110724.firebaseapp.com",
+                //databaseURL: "https://touches-110724-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "touches-110724",
+                storageBucket: "touches-110724.appspot.com",
+                messagingSenderId: "190649940963",
+                appId: "1:190649940963:web:d8e0f4f94820e18593bed6",
+                //measurementId: "G-8XTKL7L1WT"
+            });
+
+            const db = getFirestore();
+            const ordersCollection = collection(firestore, 'orders');
+    
+            async function addNewDoc() {
                 const newDoc = await addDoc(ordersCollection, {
                     desc: 'yay1',
                     smth: 'fullofthat',
                     vegan: false,
                 });
-            } catch (error) {
-                document.getElementById("userGreeting").innerText = error;
             }
+                
+            addNewDoc();
+        } catch (error) {
+            document.getElementById("userGreeting").innerText = error;
         }
-        addNewDoc();
 
         /*function getUrlParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
