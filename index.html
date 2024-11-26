@@ -98,11 +98,7 @@
         };
 
         function checkStartAppParam() {
-            const initData = window.Telegram.WebApp.initDataUnsafe;
-            const params = new URLSearchParams(initData.queryString);
-            //const urlParams = new URLSearchParams(window.location.search);
-            //const startapp = urlParams.get('startapp');
-            document.getElementById("userGreeting").innerText = params;
+            document.getElementById("userGreeting").innerText = window.Telegram.WebApp.initDataUnsafe.user.username;
         
             if (startapp) {
                 //document.getElementById("userGreeting").innerText = `StartApp param: ${startapp}`;
