@@ -70,16 +70,14 @@
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
                 document.getElementById("userGreeting").innerText = "storeUserData function called";
                 //const userDocumentUrl = `${FIRESTORE_API_URL}/${userId}`;
-
-                document.getElementById("userGreeting").innerText = `just foreplay1`;
     
                 try {
                     const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-                    document.getElementById("userGreeting").innerText = userId;
-                    //const userDocRef = db.collection("users").doc(userId);
+                    //document.getElementById("userGreeting").innerText = userId;
+                    const userDocRef = db.collection("users").doc(userId);
                     //const doc = await userDocRef.get();
 
-                    //document.getElementById("userGreeting").innerText = `just foreplay2`;
+                    document.getElementById("userGreeting").innerText = `just foreplay2`;
                     /*if (!doc.exists) {
                         document.getElementById("userGreeting").innerText = `Сreating new doc..`;
                         await userDocRef.set({
