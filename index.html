@@ -43,18 +43,20 @@
         };
         
         const db = getFirestore();
-        const sod = doc(firestore, 'hahaha');
+        const ordersCollection = collection(firestore, 'orders');
 
-        function writeItNow() {
-            const docData = {
-                desc: 'yay1',
-                price: 3.99,
-                smth: 'fullofthat',
-                vegan: false,
-            };
-            setDoc(sod, docData);
+        async function addNewDoc() {
+            try {
+                const newDoc = await addDoc(ordersCollection, {
+                    desc: 'yay1',
+                    smth: 'fullofthat',
+                    vegan: false,
+                });
+            } catch (error) {
+                document.getElementById("userGreeting").innerText = error;
+            }
         }
-        writeItNow();
+        addNewDoc();
 
         /*function getUrlParameter(name) {
             const urlParams = new URLSearchParams(window.location.search);
