@@ -99,9 +99,14 @@
         function checkStartAppParam() {
             const urlParams = new URLSearchParams(window.location.search);
             const startapp = urlParams.get('startapp');
-            document.getElementById("userGreeting").innerText = startapp;
+            if (!startapp && window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
+                const initData = window.Telegram.WebApp.initDataUnsafe;
+                document.getElementById("userGreeting").innerText = initData;
+            }
+        
+            //document.getElementById("userGreeting").innerText = startapp || "No startapp param found";
             if (startapp) {
-                window.location.href = `room.html?startapp=${encodeURIComponent(startapp)}`;
+                //window.location.href = `room.html?startapp=${encodeURIComponent(startapp)}`;
             }
         }
     
