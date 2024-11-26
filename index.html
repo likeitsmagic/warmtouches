@@ -20,8 +20,8 @@
                     
                     <a href="#" 
                        onClick="openTelegramSharer(); return false;" 
-                       class="btn btn-primary d-inline-flex flex-row align-items-center">
-                       Add a partner
+                       class="btn btn-default smoothScroll wow fadeInUp">
+                        <button class="btn btn-primary d-inline-flex flex-row align-items-center">Add a partner</button>
                     </a>
                 </div>
             </div>
@@ -87,7 +87,7 @@
         }
 
         window.openTelegramSharer = function () {
-            const roomLink = "https://example.com"; // Replace with actual logic to generate the room link
+            const roomLink = generateRoomLink();
         
             window.open(
                 `https://telegram.me/share/url?url=${encodeURIComponent(roomLink)}`, 
