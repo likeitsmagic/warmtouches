@@ -48,7 +48,7 @@
             return urlParams.get(name);
         }
 
-        const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+        //const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
         //const userId = getUrlParameter('startapp');
         //document.getElementById("userGreeting").innerText = userId;
     
@@ -74,7 +74,9 @@
                 document.getElementById("userGreeting").innerText = `just foreplay1`;
     
                 try {
-                    const userDocRef = db.collection("users").doc(userId);
+                    const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+                    document.getElementById("userGreeting").innerText = userId;
+                    //const userDocRef = db.collection("users").doc(userId);
                     //const doc = await userDocRef.get();
 
                     document.getElementById("userGreeting").innerText = `just foreplay2`;
