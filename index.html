@@ -101,7 +101,7 @@
             const startapp = urlParams.get('startapp');
             if (!startapp && window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
                 const initData = window.Telegram.WebApp.initDataUnsafe;
-                document.getElementById("userGreeting").innerText = initData;
+                document.getElementById("userGreeting").innerText = JSON.stringify(initData, null, 2);
             }
         
             //document.getElementById("userGreeting").innerText = startapp || "No startapp param found";
