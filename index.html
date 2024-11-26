@@ -55,13 +55,11 @@
 
         async function storeUserData() {
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
-                //const userDocumentUrl = `${FIRESTORE_API_URL}/${userId}`;
     
                 try {
                     const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
-                    //document.getElementById("userGreeting").innerText = userId;
                     const usersCollection = collection(db, "users");
-                    const q = query(usersCollection, where(fieldName, "==", userId));
+                    const q = query(usersCollection, where("id", "==", userId));
                     const snap = await getDocs(q);
                     
                     if (snap.empty) {
@@ -75,12 +73,8 @@
                     } else {
                         document.getElementById("userGreeting").innerText = `already exists`;
                         snap.forEach((doc) => {
-                            document.getElementById("userGreeting").innerText = doc.data();
-                        }
-                        // User already exists, retrieve and display their data
-                        //const userData = doc.data();
-                        //document.getElementById("userGreeting").innerText = `Welcome, ${userData.username}!`;
-                        //document.getElementById("userImage").src = userData.photoURL; // Assuming you store photoURL in Firestore
+                            document.getElementById("userGreeting").innerText = JSON.stringify(doc.data());
+                        });
                     }
                 } catch (error) {
                     console.error("Error storing user data:", error);
@@ -95,22 +89,6 @@
         document.addEventListener("DOMContentLoaded", function() {
             storeUserData();
         });
-    
-        /*async function addNewDoc() {
-            try {
-                const ordersCollection = collection(db, "orders");
-                const newDoc = await addDoc(ordersCollection, {
-                    desc: "yay1",
-                    smth: "fullofthat",
-                    vegan: false,
-                });
-                document.getElementById("userGreeting").innerText = newDoc.id;
-            } catch (error) {
-                document.getElementById("userGreeting").innerText = error.message;
-            }
-        }
-    
-        addNewDoc();*/
     </script>
 </body>
 </html>
