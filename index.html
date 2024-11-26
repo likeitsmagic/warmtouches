@@ -29,7 +29,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
     
         const firebaseConfig = {
             apiKey: "AIzaSyDD0CegDU3N5BeKTxNtiIxzHU_KqwBb6V8",
@@ -42,8 +42,61 @@
     
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+
+        function generateRoomLink() {
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
+                const userIdForRoom = window.Telegram.WebApp.initDataUnsafe.user.id;
+                return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userIdForRoom)}`;
+            } else {
+                console.error("Telegram WebApp is not initialized or running outside Telegram.");
+                return "#";
+            }
+        }
+
+        async function storeUserData() {
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
+                //const userDocumentUrl = `${FIRESTORE_API_URL}/${userId}`;
     
-        async function addNewDoc() {
+                try {
+                    const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+                    //document.getElementById("userGreeting").innerText = userId;
+                    const usersCollection = collection(db, "users");
+                    const q = query(usersCollection, where(fieldName, "==", userId));
+                    const snap = await getDocs(q);
+                    
+                    if (snap.empty) {
+                        document.getElementById("userGreeting").innerText = `Сreating new doc..`;
+                        const newDoc = await addDoc(usersCollection, {
+                            id: userId,
+                            username: window.Telegram.WebApp.initDataUnsafe.user.username || "No Username",
+                            photoURL: window.Telegram.WebApp.initDataUnsafe.user.photo_url || "No Image", // Use a default image if none provided
+                        });
+                        document.getElementById("userGreeting").innerText = newDoc.id;
+                    } else {
+                        document.getElementById("userGreeting").innerText = `already exists`;
+                        snap.forEach((doc) => {
+                            document.getElementById("userGreeting").innerText = doc.data();
+                        }
+                        // User already exists, retrieve and display their data
+                        //const userData = doc.data();
+                        //document.getElementById("userGreeting").innerText = `Welcome, ${userData.username}!`;
+                        //document.getElementById("userImage").src = userData.photoURL; // Assuming you store photoURL in Firestore
+                    }
+                } catch (error) {
+                    console.error("Error storing user data:", error);
+                    document.getElementById("userGreeting").innerText = "Something went wrong: " + error;
+                }
+            } else {
+                console.error("Telegram WebApp is not initialized or running outside Telegram.");
+                document.getElementById("userGreeting").innerText = "Unable to retrieve user data.";
+            }
+        }
+    
+        document.addEventListener("DOMContentLoaded", function() {
+            storeUserData();
+        });
+    
+        /*async function addNewDoc() {
             try {
                 const ordersCollection = collection(db, "orders");
                 const newDoc = await addDoc(ordersCollection, {
@@ -57,7 +110,7 @@
             }
         }
     
-        addNewDoc();
+        addNewDoc();*/
     </script>
 </body>
 </html>
