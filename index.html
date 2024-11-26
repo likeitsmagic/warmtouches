@@ -28,7 +28,7 @@
         </div>
     </section>
 
-    <script>
+    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
     
@@ -86,15 +86,15 @@
             }
         }
 
-        function openTelegramSharer() {
-            const roomLink = generateRoomLink();
-            //${encodeURIComponent(roomLink)}
+        window.openTelegramSharer = function () {
+            const roomLink = "https://example.com"; // Replace with actual logic to generate the room link
+        
             window.open(
                 `https://telegram.me/share/url?url=${encodeURIComponent(roomLink)}`, 
                 "sharer", 
                 "status=0,toolbar=0,width=650,height=500"
             );
-        }
+        };
     
         document.addEventListener("DOMContentLoaded", function() {
             //storeUserData();
