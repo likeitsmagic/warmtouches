@@ -3,6 +3,7 @@
 <head>
     <title>Feel it</title>
     
+    <script src="./js/startapp.js" defer></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="css/default.css">
 </head>
@@ -91,25 +92,12 @@
         
             window.open(
                 `https://telegram.me/share/url?url=${encodeURIComponent(roomLink)}`, 
-                "sharer", 
+                "sharer",
                 "status=0,toolbar=0,width=650,height=500"
             );
         };
-
-        function checkStartAppParam() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const startapp = urlParams.get('startapp');
-            console.log("testit", startapp);
-            document.getElementById("userGreeting").innerText = startapp;
-        
-            //document.getElementById("userGreeting").innerText = startapp || "No startapp param found";
-            if (startapp) {
-                //window.location.href = `room.html?startapp=${encodeURIComponent(startapp)}`;
-            }
-        }
     
         document.addEventListener("DOMContentLoaded", function() {
-            checkStartAppParam();
             //storeUserData();
         });
     </script>
