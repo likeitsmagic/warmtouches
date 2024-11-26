@@ -48,7 +48,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        function generateRoomLink() {
+        window.generateRoomLink = function() {
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
                 const userIdForRoom = window.Telegram.WebApp.initDataUnsafe.user.id;
                 return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userIdForRoom)}`;
@@ -56,7 +56,7 @@
                 console.error("Telegram WebApp is not initialized or running outside Telegram.");
                 return "#";
             }
-        }
+        };
 
         async function storeUserData() {
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
@@ -92,15 +92,6 @@
     
         document.addEventListener("DOMContentLoaded", function() {
             //storeUserData();
-
-            /*const addPartnerButton = document.querySelector("#addPartner");
-            addPartnerButton.addEventListener("click", function(event) {
-                event.preventDefault();
-                const link = generateRoomLink();
-                if (link !== "#") {
-                    window.open(link, "sharer", "status=0,toolbar=0,width=650,height=500");
-                }
-            });*/
         });
     </script>
 </body>
