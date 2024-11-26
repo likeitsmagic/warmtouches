@@ -47,7 +47,7 @@
         function generateRoomLink() {
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) {
                 const userIdForRoom = window.Telegram.WebApp.initDataUnsafe.user.id;
-                return `https://t.me/WarmTouchesBot?startapp=${encodeURIComponent(userIdForRoom)}`;
+                return `https://t.me/WarmTouchesBot/room.html?startapp=${encodeURIComponent(userIdForRoom)}`;
             } else {
                 console.error("Telegram WebApp is not initialized or running outside Telegram.");
                 return "outside";
