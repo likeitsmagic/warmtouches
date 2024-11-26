@@ -100,7 +100,7 @@
         function checkStartAppParam() {
             const urlParams = new URLSearchParams(window.location.search);
             const startapp = urlParams.get('startapp');
-            document.getElementById("userGreeting").innerText = urlParams;
+            document.getElementById("userGreeting").innerText = window.location.href;
         
             if (startapp) {
                 //document.getElementById("userGreeting").innerText = `StartApp param: ${startapp}`;
