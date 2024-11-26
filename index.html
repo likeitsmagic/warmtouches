@@ -103,11 +103,10 @@
             document.getElementById("userGreeting").innerText = urlParams;
         
             if (startapp) {
-                document.getElementById("userGreeting").innerText = `StartApp param: ${startapp}`;
-                // Redirect to room.html with the startapp value
+                //document.getElementById("userGreeting").innerText = `StartApp param: ${startapp}`;
                 window.location.href = `room.html?startapp=${encodeURIComponent(startapp)}`;
             } else {
-                document.getElementById("userGreeting").innerText = "No startapp param found";
+                //document.getElementById("userGreeting").innerText = "No startapp param found";
             }
         }
     
